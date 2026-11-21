@@ -6,6 +6,7 @@ const typeDefs = `#graphql
   type Query {
     hello: String
     name: String
+    greet(name:String): String
   }
 `;
 
@@ -13,7 +14,8 @@ const typeDefs = `#graphql
 const resolvers = {
   Query: {
     hello: () => 'Hello world!',
-    name: () => "Hello Azis!"
+    name: () => "Hello Azis!",
+    greet: (_, args) => `Halo, ${args.name}!`,
   },
 };
 
