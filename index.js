@@ -1,21 +1,33 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 
-// 1. Define your schema
 const typeDefs = `#graphql
+  type CurrentWeather {
+    time: String
+    temperature_2m: Float
+    weather_code: Int
+  }
+
+  type Weather {
+    latitude: Float
+    longitude: Float
+    current: CurrentWeather
+  }
+
   type Query {
-    hello: String
-    name: String
-    greet(name:String): String
+    weather: Weather
   }
 `;
-
 // 2. Define your resolvers
 const resolvers = {
   Query: {
-    hello: () => 'Hello world!',
-    name: () => "Hello Azis!",
-    greet: (_, args) => `Halo, ${args.name}!`,
+
+    weather: async () => {
+      const res = await fetch(
+        'https://api.open-meteo.com/v1/forecast?latitude=-6.2&longitude=106.85&current=temperature_2m,weather_code'
+      );
+      return res.json();
+    },
   },
 };
 
