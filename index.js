@@ -13,9 +13,14 @@ const typeDefs = `#graphql
     longitude: Float
     current: CurrentWeather
   }
+  type Hero {
+    name: String
+    appearsIn: [String!]!
+  }
 
   type Query {
     weather: Weather
+    hero: Hero
   }
 `;
 // 2. Define your resolvers
@@ -28,6 +33,10 @@ const resolvers = {
       );
       return res.json();
     },
+    hero: () => ({
+      name: "Iron Man",
+      appearsIn: ["Avengers", "Iron Man"]
+    })
   },
 };
 
